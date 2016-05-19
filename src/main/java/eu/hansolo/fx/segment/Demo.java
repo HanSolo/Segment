@@ -40,60 +40,51 @@ import javafx.scene.Scene;
  */
 public class Demo extends Application {
     private HBox    row0;
-    private Label   r0Label;
     private Segment r00;
     private Segment r01;
     private Segment r02;
     private HBox    row1;
-    private Label   r1Label;
     private Segment r10;
     private Segment r11;
     private Segment r12;
     private HBox    row2;
-    private Label   r2Label;
     private Segment r20;
     private Segment r21;
     private Segment r22;
     private HBox    row3;
-    private Label   r3Label;
     private Segment r30;
     private Segment r31;
     private Segment r32;
 
 
     @Override public void init() {
-        r0Label = createLabel("Bichelweiher");
         r00     = new Segment(Character.C4);
         r01     = new Segment(Character.C7);
         r02     = new Segment(Character.C1);
-        row0     = new HBox(r0Label, r00, r01, r02);
+        row0     = new HBox(r00, r01, r02);
         row0.setSpacing(5);
         row0.setAlignment(Pos.CENTER_LEFT);
 
-        r1Label = createLabel("Technikum");
         r10     = new Segment(Character.C1);
         r11     = new Segment(Character.C3);
         r12     = new Segment(Character.C1);
-        row1    = new HBox(r1Label, r10, r11, r12);
+        row1    = new HBox(r10, r11, r12);
         row1.setSpacing(5);
         row1.setAlignment(Pos.CENTER_LEFT);
 
-        r2Label = createLabel("Archhöfe");
         r20     = new Segment(Character.C1);
         r21     = new Segment(Character.C5);
         r22     = new Segment(Character.C8);
-        row2    = new HBox(r2Label, r20, r21, r22);
+        row2    = new HBox(r20, r21, r22);
         row2.setSpacing(5);
         row2.setAlignment(Pos.CENTER_LEFT);
 
-        r3Label = createLabel("Citypassage");
         r30     = new Segment(Character.C2);
         r31     = new Segment(Character.C1);
         r32     = new Segment(Character.C0);
-        row3    = new HBox(r3Label, r30, r31, r32);
+        row3    = new HBox(r30, r31, r32);
         row3.setSpacing(5);
         row3.setAlignment(Pos.CENTER_LEFT);
-
     }
 
     @Override public void start(Stage stage) {
@@ -113,15 +104,6 @@ public class Demo extends Application {
 
     @Override public void stop() {
         System.exit(0);
-    }
-
-    private Label createLabel(final String TEXT) {
-        Label label = new Label(TEXT);
-        label.setFont(Font.font(50));
-        label.setTextFill(Color.BLACK);
-        label.setPrefWidth(350);
-        label.setBackground(new Background(new BackgroundFill(Color.rgb(250, 197, 17), CornerRadii.EMPTY, Insets.EMPTY)));
-        return label;
     }
 
     public static void main(String[] args) {
