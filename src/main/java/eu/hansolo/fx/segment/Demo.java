@@ -17,6 +17,7 @@
 package eu.hansolo.fx.segment;
 
 import eu.hansolo.fx.segment.Segment.Character;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -32,6 +33,8 @@ import javafx.stage.Stage;
 import javafx.scene.layout.StackPane;
 import javafx.scene.Scene;
 
+import java.util.Random;
+
 
 /**
  * User: hansolo
@@ -39,22 +42,25 @@ import javafx.scene.Scene;
  * Time: 13:08
  */
 public class Demo extends Application {
-    private HBox    row0;
-    private Segment r00;
-    private Segment r01;
-    private Segment r02;
-    private HBox    row1;
-    private Segment r10;
-    private Segment r11;
-    private Segment r12;
-    private HBox    row2;
-    private Segment r20;
-    private Segment r21;
-    private Segment r22;
-    private HBox    row3;
-    private Segment r30;
-    private Segment r31;
-    private Segment r32;
+    private static final Random RND = new Random();
+    private HBox           row0;
+    private Segment        r00;
+    private Segment        r01;
+    private Segment        r02;
+    private HBox           row1;
+    private Segment        r10;
+    private Segment        r11;
+    private Segment        r12;
+    private HBox           row2;
+    private Segment        r20;
+    private Segment        r21;
+    private Segment        r22;
+    private HBox           row3;
+    private Segment        r30;
+    private Segment        r31;
+    private Segment        r32;
+    private long           lastTimerCall;
+    private AnimationTimer timer;
 
 
     @Override public void init() {
@@ -85,6 +91,28 @@ public class Demo extends Application {
         row3    = new HBox(r30, r31, r32);
         row3.setSpacing(5);
         row3.setAlignment(Pos.CENTER_LEFT);
+
+        lastTimerCall = System.nanoTime();
+        timer         = new AnimationTimer() {
+            @Override public void handle(long now) {
+                if (now > lastTimerCall + 2_000_000_000l) {
+                    r00.setCharacter(Segment.Character.values()[RND.nextInt(11)]);
+                    r01.setCharacter(Segment.Character.values()[RND.nextInt(11)]);
+                    r02.setCharacter(Segment.Character.values()[RND.nextInt(11)]);
+                    r10.setCharacter(Segment.Character.values()[RND.nextInt(11)]);
+                    r11.setCharacter(Segment.Character.values()[RND.nextInt(11)]);
+                    r12.setCharacter(Segment.Character.values()[RND.nextInt(11)]);
+                    r20.setCharacter(Segment.Character.values()[RND.nextInt(11)]);
+                    r21.setCharacter(Segment.Character.values()[RND.nextInt(11)]);
+                    r22.setCharacter(Segment.Character.values()[RND.nextInt(11)]);
+                    r30.setCharacter(Segment.Character.values()[RND.nextInt(11)]);
+                    r31.setCharacter(Segment.Character.values()[RND.nextInt(11)]);
+                    r32.setCharacter(Segment.Character.values()[RND.nextInt(11)]);
+
+                    lastTimerCall = now;
+                }
+            }
+        };
     }
 
     @Override public void start(Stage stage) {
@@ -100,6 +128,8 @@ public class Demo extends Application {
         stage.setTitle("Friday Fun XXX");
         stage.setScene(scene);
         stage.show();
+
+        timer.start();
     }
 
     @Override public void stop() {
