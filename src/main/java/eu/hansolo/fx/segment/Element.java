@@ -18,6 +18,7 @@ package eu.hansolo.fx.segment;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ObjectPropertyBase;
+import javafx.geometry.Pos;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -37,7 +38,7 @@ public class Element extends Region {
         ROUND_UPPER_RIGHT("M 0 8.6 L 0 8.6 L 0 0 C 4.74971 0 8.6 3.85029 8.6 8.6 L 0 8.6 Z"),
         ROUND_LOWER_RIGHT("M 0 0 L 0 0 L 0 8.6 C 4.74971 8.6 8.6 4.74971 8.6 0 L 0 0 Z"),
         ROUND_LOWER_LEFT("M 8.6 0 L 8.6 0 L 8.6 8.6 C 3.85029 8.6 0 4.74971 0 0 L 8.6 0 Z"),
-        TRIANGLE_TOP("M 0 0 L 8.6 0 L 4.3 L 4.3 L 0 0 Z"),
+        TRIANGLE_TOP("M 0 0 L 8.6 0 L 4.3 4.3 L 0 0 Z"),
         TRIANGLE_UPPER_RIGHT("M 0 0 L 8.6 0 L 8.6 8.6 L 0 0 Z"),
         TRIANGLE_RIGHT("M 8.6 0 L 8.6 8.6 L 4.3 4.3 L 8.6 0 Z"),
         TRIANGLE_LOWER_RIGHT("M 8.6 0 L 8.6 8.6 L 0 8.6 L 8.6 0 Z"),
@@ -45,6 +46,8 @@ public class Element extends Region {
         TRIANGLE_LOWER_LEFT("M 0 0 L 8.6 8.6 L 0 8.6 L 0 0 Z"),
         TRIANGLE_LEFT("M 0 0 L 4.3 4.3 L 0 8.6 L 0 0 Z"),
         TRIANGLE_UPPER_LEFT("M 0 0 L 8.6 0 L 0 8.6 L 0 0 Z"),
+        TRIANGLE_LEFT_RIGHT("M 8.6 0 L 4.3 4.3 L 8.6 8.6 L 8.6 0 Z M 0 8.6 L 4.3 4.3 L 0 0 L 0 8.6 Z"),
+        TRIANGLE_TOP_BOTTOM("M 8.6 8.6 L 4.3 4.3 L 0 8.6 L 8.6 8.6 Z M 0 0 L 4.3 4.3 L 8.6 0 L 0 0 Z"),
         NOT_TRIANGLE_TOP("M 0 0 L 4.3 4.3 L 8.6 0 L 8.6 8.6 L 0 8.6 L 0 0 Z"),
         NOT_TRIANGLE_RIGHT("M 0 0 L 8.6 0 L 4.3 4.3 L 8.6 8.6 L 0 8.6 L 0 0 Z"),
         NOT_TRIANGLE_BOTTOM("M 0 0 L 8.6 0 L 8.6 8.6 L 4.3 4.3 L 0 8.6 L 0 0 Z"),
@@ -65,7 +68,6 @@ public class Element extends Region {
     private              double                size;
     private              SVGPath               path;
     private              StackPane             pane;
-    private              State                 _state;
     private              ObjectProperty<State> state;
     private              Color                 _color;
     private              ObjectProperty<Color> color;
@@ -79,7 +81,20 @@ public class Element extends Region {
         getStylesheets().add(Element.class.getResource("segment.css").toExternalForm());
         getStyleClass().add("element");
 
-        _state = STATE;
+        state = new ObjectPropertyBase<State>(State.EMPTY) {
+            @Override protected void invalidated() {
+                path.setContent(get().SVG_PATH_STRING);
+                switch(get()) {
+                    case TRIANGLE_TOP   : pane.setAlignment(Pos.TOP_CENTER);    break;
+                    case TRIANGLE_RIGHT : pane.setAlignment(Pos.CENTER_RIGHT);  break;
+                    case TRIANGLE_BOTTOM: pane.setAlignment(Pos.BOTTOM_CENTER); break;
+                    case TRIANGLE_LEFT  : pane.setAlignment(Pos.CENTER_LEFT);   break;
+                    default             : pane.setAlignment(Pos.CENTER);        break;
+                }
+            }
+            @Override public Object getBean() { return Element.this; }
+            @Override public String getName() { return "state"; }
+        };
 
         init();
         initGraphics();
@@ -124,26 +139,9 @@ public class Element extends Region {
 
 
     // ******************** Methods *******************************************
-    public State getState() { return null == state ? _state : state.get(); }
-    public void setState(final State STATE) {
-        if (null == state) {
-            _state = STATE;
-            path.setContent(_state.SVG_PATH_STRING);
-        } else {
-            state.set(STATE);
-        }
-    }
-    public ObjectProperty<State> stateProperty() {
-        if (null == state) {
-            state = new ObjectPropertyBase<State>(_state) {
-                @Override protected void invalidated() { path.setContent(get().SVG_PATH_STRING); }
-                @Override public Object getBean() { return Element.this; }
-                @Override public String getName() { return "state"; }
-            };
-            _state = null;
-        }
-        return state;
-    }
+    public State getState() { return state.get(); }
+    public void setState(final State STATE) { state.set(STATE); }
+    public ObjectProperty<State> stateProperty() { return state; }
 
     public Color getColor() { return null == color ? _color : color.get(); }
     public void setColor(final Color COLOR) {

@@ -43,6 +43,8 @@ import java.util.Random;
  */
 public class Demo extends Application {
     private static final Random RND = new Random();
+    private int            counter;
+    private boolean        toggle;
     private HBox           row0;
     private Segment        r00;
     private Segment        r01;
@@ -59,6 +61,13 @@ public class Demo extends Application {
     private Segment        r30;
     private Segment        r31;
     private Segment        r32;
+    private HBox           text;
+    private Segment        t0;
+    private Segment        t1;
+    private Segment        t2;
+    private Segment        t3;
+    private Segment        t4;
+    private Segment        segment;
     private long           lastTimerCall;
     private AnimationTimer timer;
 
@@ -69,33 +78,41 @@ public class Demo extends Application {
         r02     = new Segment(Character.C1);
         row0     = new HBox(r00, r01, r02);
         row0.setSpacing(5);
-        row0.setAlignment(Pos.CENTER_LEFT);
 
         r10     = new Segment(Character.C1);
         r11     = new Segment(Character.C3);
         r12     = new Segment(Character.C1);
         row1    = new HBox(r10, r11, r12);
         row1.setSpacing(5);
-        row1.setAlignment(Pos.CENTER_LEFT);
 
         r20     = new Segment(Character.C1);
         r21     = new Segment(Character.C5);
         r22     = new Segment(Character.C8);
         row2    = new HBox(r20, r21, r22);
         row2.setSpacing(5);
-        row2.setAlignment(Pos.CENTER_LEFT);
 
         r30     = new Segment(Character.C2);
         r31     = new Segment(Character.C1);
         r32     = new Segment(Character.C0);
         row3    = new HBox(r30, r31, r32);
         row3.setSpacing(5);
-        row3.setAlignment(Pos.CENTER_LEFT);
 
+        t0 = new Segment(Character.CJ);
+        t1 = new Segment(Character.CA);
+        t2 = new Segment(Character.CV);
+        t3 = new Segment(Character.CA);
+        t4 = new Segment(Character.EMPTY);
+        text = new HBox(t0, t1, t2, t3, t4);
+        text.setSpacing(5);
+
+        segment = new Segment(Character.EMPTY);
+
+        counter       = 0;
         lastTimerCall = System.nanoTime();
         timer         = new AnimationTimer() {
             @Override public void handle(long now) {
                 if (now > lastTimerCall + 2_000_000_000l) {
+                    toggle ^= true;
                     r00.setCharacter(Segment.Character.values()[RND.nextInt(11)]);
                     r01.setCharacter(Segment.Character.values()[RND.nextInt(11)]);
                     r02.setCharacter(Segment.Character.values()[RND.nextInt(11)]);
@@ -109,6 +126,16 @@ public class Demo extends Application {
                     r31.setCharacter(Segment.Character.values()[RND.nextInt(11)]);
                     r32.setCharacter(Segment.Character.values()[RND.nextInt(11)]);
 
+                    t0.setCharacter(toggle ? Character.CJ    : Character.CR);
+                    t1.setCharacter(toggle ? Character.CA    : Character.CO);
+                    t2.setCharacter(toggle ? Character.CV    : Character.CC);
+                    t3.setCharacter(toggle ? Character.CA    : Character.CK);
+                    t4.setCharacter(toggle ? Character.EMPTY : Character.CS);
+
+                    counter++;
+                    if (counter > Character.values().length - 1) counter = 0;
+                    segment.setCharacter(Segment.Character.values()[counter]);
+
                     lastTimerCall = now;
                 }
             }
@@ -116,7 +143,7 @@ public class Demo extends Application {
     }
 
     @Override public void start(Stage stage) {
-        VBox vbox = new VBox(row0, row1, row2, row3);
+        VBox vbox = new VBox(row0, row1, row2, row3, text, segment);
         vbox.setSpacing(20);
 
         StackPane pane = new StackPane(vbox);
