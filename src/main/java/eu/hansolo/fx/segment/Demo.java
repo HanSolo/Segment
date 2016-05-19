@@ -111,7 +111,7 @@ public class Demo extends Application {
         lastTimerCall = System.nanoTime();
         timer         = new AnimationTimer() {
             @Override public void handle(long now) {
-                if (now > lastTimerCall + 2_000_000_000l) {
+                if (now > lastTimerCall + 1_000_000_000l) {
                     toggle ^= true;
                     r00.setCharacter(Segment.Character.values()[RND.nextInt(11)]);
                     r01.setCharacter(Segment.Character.values()[RND.nextInt(11)]);
