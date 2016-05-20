@@ -37,7 +37,7 @@ import javafx.scene.paint.Paint;
 /**
  * User: hansolo
  * Date: 19.05.16
- * Time: 12:55
+ * Time: 19:55
  */
 public class Segment extends Region {
     public enum Character {
@@ -225,7 +225,12 @@ public class Segment extends Region {
                            State.EMPTY, State.TRIANGLE_LOWER_RIGHT, State.TRIANGLE_UPPER_LEFT,
                            State.TRIANGLE_LOWER_RIGHT, State.TRIANGLE_UPPER_LEFT, State.EMPTY,
                            State.SQUARE, State.EMPTY, State.EMPTY,
-                           State.SQUARE, State.SQUARE, State.SQUARE });
+                           State.SQUARE, State.SQUARE, State.SQUARE }),
+        CMINUS(new State[] { State.EMPTY, State.EMPTY, State.EMPTY,
+                           State.EMPTY, State.EMPTY, State.EMPTY,
+                           State.TRIANGLE_RIGHT, State.SQUARE, State.TRIANGLE_LEFT,
+                           State.EMPTY, State.EMPTY, State.EMPTY,
+                           State.EMPTY, State.EMPTY, State.EMPTY });
 
         public final State[] STATES;
 
@@ -355,6 +360,7 @@ public class Segment extends Region {
     public void setCharacter(final Character CHARACTER) { character.set(CHARACTER); }
     public ObjectProperty<Character> characterProperty() { return character; }
 
+    public Color getColor() { return e00.getColor(); }
     public void setColor(final Color COLOR) {
         pane.setBackground(new Background(new BackgroundFill(COLOR.deriveColor(0, 0, -0.8, 1), CornerRadii.EMPTY, Insets.EMPTY)));
         e00.setColor(COLOR);
@@ -373,6 +379,7 @@ public class Segment extends Region {
         e14.setColor(COLOR);
         e24.setColor(COLOR);
     }
+    public ObjectProperty<Color> colorProperty() { return e00.colorProperty(); }
 
 
     // ******************** Resizing ******************************************

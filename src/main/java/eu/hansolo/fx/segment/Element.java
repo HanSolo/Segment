@@ -28,7 +28,7 @@ import javafx.scene.shape.SVGPath;
 /**
  * User: hansolo
  * Date: 19.05.16
- * Time: 12:38
+ * Time: 19:38
  */
 public class Element extends Region {
     public  enum State {
@@ -46,8 +46,6 @@ public class Element extends Region {
         TRIANGLE_LOWER_LEFT("M 0 0 L 8.6 8.6 L 0 8.6 L 0 0 Z"),
         TRIANGLE_LEFT("M 0 0 L 4.3 4.3 L 0 8.6 L 0 0 Z"),
         TRIANGLE_UPPER_LEFT("M 0 0 L 8.6 0 L 0 8.6 L 0 0 Z"),
-        TRIANGLE_LEFT_RIGHT("M 8.6 0 L 4.3 4.3 L 8.6 8.6 L 8.6 0 Z M 0 8.6 L 4.3 4.3 L 0 0 L 0 8.6 Z"),
-        TRIANGLE_TOP_BOTTOM("M 8.6 8.6 L 4.3 4.3 L 0 8.6 L 8.6 8.6 Z M 0 0 L 4.3 4.3 L 8.6 0 L 0 0 Z"),
         NOT_TRIANGLE_TOP("M 0 0 L 4.3 4.3 L 8.6 0 L 8.6 8.6 L 0 8.6 L 0 0 Z"),
         NOT_TRIANGLE_RIGHT("M 0 0 L 8.6 0 L 4.3 4.3 L 8.6 8.6 L 0 8.6 L 0 0 Z"),
         NOT_TRIANGLE_BOTTOM("M 0 0 L 8.6 0 L 8.6 8.6 L 4.3 4.3 L 0 8.6 L 0 0 Z"),
