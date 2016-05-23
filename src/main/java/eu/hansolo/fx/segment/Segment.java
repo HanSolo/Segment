@@ -265,6 +265,7 @@ public class Segment extends Region {
     private              Element                   e24;
     private              GridPane                  pane;
     private              ObjectProperty<Character> character;
+    private              ObjectProperty<Color>     color;
 
 
     // ******************** Constructors **************************************
@@ -279,6 +280,29 @@ public class Segment extends Region {
             @Override protected void invalidated() { resize(); }
             @Override public Object getBean() { return Segment.this; }
             @Override public String getName() { return "character"; }
+        };
+        color       = new ObjectPropertyBase<Color>() {
+            @Override protected void invalidated() {
+                final Color COLOR = get();
+                pane.setBackground(new Background(new BackgroundFill(COLOR.deriveColor(0, 0, -0.8, 1), CornerRadii.EMPTY, Insets.EMPTY)));
+                e00.setColor(COLOR);
+                e10.setColor(COLOR);
+                e20.setColor(COLOR);
+                e01.setColor(COLOR);
+                e11.setColor(COLOR);
+                e21.setColor(COLOR);
+                e02.setColor(COLOR);
+                e12.setColor(COLOR);
+                e22.setColor(COLOR);
+                e03.setColor(COLOR);
+                e13.setColor(COLOR);
+                e23.setColor(COLOR);
+                e04.setColor(COLOR);
+                e14.setColor(COLOR);
+                e24.setColor(COLOR);
+            }
+            @Override public Object getBean() { return Segment.this; }
+            @Override public String getName() { return "color"; }
         };
         init();
         initGraphics();
@@ -360,26 +384,9 @@ public class Segment extends Region {
     public void setCharacter(final Character CHARACTER) { character.set(CHARACTER); }
     public ObjectProperty<Character> characterProperty() { return character; }
 
-    public Color getColor() { return e00.getColor(); }
-    public void setColor(final Color COLOR) {
-        pane.setBackground(new Background(new BackgroundFill(COLOR.deriveColor(0, 0, -0.8, 1), CornerRadii.EMPTY, Insets.EMPTY)));
-        e00.setColor(COLOR);
-        e10.setColor(COLOR);
-        e20.setColor(COLOR);
-        e01.setColor(COLOR);
-        e11.setColor(COLOR);
-        e21.setColor(COLOR);
-        e02.setColor(COLOR);
-        e12.setColor(COLOR);
-        e22.setColor(COLOR);
-        e03.setColor(COLOR);
-        e13.setColor(COLOR);
-        e23.setColor(COLOR);
-        e04.setColor(COLOR);
-        e14.setColor(COLOR);
-        e24.setColor(COLOR);
-    }
-    public ObjectProperty<Color> colorProperty() { return e00.colorProperty(); }
+    public Color getColor() { return color.get(); }
+    public void setColor(final Color COLOR) { color.set(COLOR); }
+    public ObjectProperty<Color> colorProperty() { return color; }
 
 
     // ******************** Resizing ******************************************
